@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+
+  frontend:
+    build: ./frontend
+    container_name: bitforge_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: bitforge_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql://bitforge:bitforge@postgres:5432/bitforge
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=dev_secret_key_change_in_production
+      - ENVIRONMENT=development
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  simulator:
+    build: ./simulator
+    container_name: bitforge_simulator
+    volumes:
+      - /tmp/bitforge_sims:/tmp/sims
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - S3_BUCKET=bitforge-waveforms
+    depends_on:
+      - redis
+    restart: unless-stopped
+    # Security: no network access, limited resources
+    network_mode: none
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: bitforge_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: bitforge
+      POSTGRES_USER: bitforge
+      POSTGRES_PASSWORD: bitforge
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: bitforge_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
