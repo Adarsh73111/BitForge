@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from app.core.database import get_db
 from app.models.submission import Submission
+from app.models.problem import Problem
+from app.services.simulator import run_simulation
 
 router = APIRouter(prefix="/submissions", tags=["submissions"])
 
@@ -13,17 +15,43 @@ class SubmitRequest(BaseModel):
 
 @router.post("/")
 def submit(req: SubmitRequest, db: Session = Depends(get_db)):
+    # Get problem + testbench
+    problem = db.query(Problem).filter(Problem.id == req.problem_id).first()
+    if not problem:
+        raise HTTPException(404, "Problem not found")
+
+    # Create submission record
     submission = Submission(
-        user_id=1,  # placeholder until auth middleware added
+        user_id=1,
         problem_id=req.problem_id,
         code=req.code,
         language=req.language,
-        status="pending"
+        status="running"
     )
     db.add(submission)
     db.commit()
     db.refresh(submission)
-    return {"submission_id": submission.id, "status": "pending"}
+
+    # Run simulation
+    result = run_simulation(
+        user_code=req.code,
+        testbench=problem.testbench,
+        language=req.language,
+    )
+
+    # Update submission with result
+    submission.status     = result["status"]
+    submission.result     = result["output"]
+    submission.runtime_ms = result["runtime_ms"]
+    db.commit()
+
+    return {
+        "submission_id": submission.id,
+        "status":        result["status"],
+        "output":        result["output"],
+        "runtime_ms":    result["runtime_ms"],
+        "vcd":           result["vcd"],
+    }
 
 @router.get("/{submission_id}")
 def get_submission(submission_id: int, db: Session = Depends(get_db)):
@@ -31,7 +59,8 @@ def get_submission(submission_id: int, db: Session = Depends(get_db)):
     if not sub:
         raise HTTPException(404, "Submission not found")
     return {
-        "id": sub.id, "status": sub.status,
-        "result": sub.result, "waveform_url": sub.waveform_url,
+        "id":         sub.id,
+        "status":     sub.status,
+        "result":     sub.result,
         "runtime_ms": sub.runtime_ms,
     }
