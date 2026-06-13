@@ -12,7 +12,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://bit-forge-lac.vercel.app"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,11 +24,7 @@ app.include_router(submissions.router)
 
 @app.get("/")
 def root():
-    return {
-        "name": "BitForge API",
-        "version": settings.VERSION,
-        "status": "running"
-    }
+    return {"name": "BitForge API", "version": settings.VERSION, "status": "running"}
 
 @app.get("/health")
 def health():

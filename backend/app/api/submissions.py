@@ -5,6 +5,7 @@ from app.core.database import get_db
 from app.models.submission import Submission
 from app.models.problem import Problem
 from app.services.simulator import run_simulation
+from app.services.vcd_parser import parse_vcd
 
 router = APIRouter(prefix="/submissions", tags=["submissions"])
 
@@ -15,12 +16,10 @@ class SubmitRequest(BaseModel):
 
 @router.post("/")
 def submit(req: SubmitRequest, db: Session = Depends(get_db)):
-    # Get problem + testbench
     problem = db.query(Problem).filter(Problem.id == req.problem_id).first()
     if not problem:
         raise HTTPException(404, "Problem not found")
 
-    # Create submission record
     submission = Submission(
         user_id=1,
         problem_id=req.problem_id,
@@ -39,7 +38,12 @@ def submit(req: SubmitRequest, db: Session = Depends(get_db)):
         language=req.language,
     )
 
-    # Update submission with result
+    # Parse VCD waveform
+    waveform = None
+    if result.get("vcd"):
+        waveform = parse_vcd(result["vcd"])
+
+    # Update submission
     submission.status     = result["status"]
     submission.result     = result["output"]
     submission.runtime_ms = result["runtime_ms"]
@@ -50,7 +54,7 @@ def submit(req: SubmitRequest, db: Session = Depends(get_db)):
         "status":        result["status"],
         "output":        result["output"],
         "runtime_ms":    result["runtime_ms"],
-        "vcd":           result["vcd"],
+        "waveform":      waveform,
     }
 
 @router.get("/{submission_id}")
