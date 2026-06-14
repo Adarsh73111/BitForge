@@ -25,6 +25,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("username", form.username);
         setMsg("✅ Login successful! Redirecting...");
         setTimeout(() => window.location.href = "/problems", 1000);
       } else {
