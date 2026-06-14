@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import auth, problems, submissions, users, admin
+from app.api import auth, problems, submissions, users, admin, hints
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -23,6 +23,7 @@ app.include_router(problems.router)
 app.include_router(submissions.router)
 app.include_router(users.router)
 app.include_router(admin.router)
+app.include_router(hints.router)
 
 @app.get("/")
 def root():

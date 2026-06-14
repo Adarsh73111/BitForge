@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     AWS_REGION: str = "ap-south-1"
     S3_BUCKET: str = "bitforge-waveforms"
 
+    GROQ_API_KEY: str = ""
+
     class Config:
         env_file = ".env"
 
