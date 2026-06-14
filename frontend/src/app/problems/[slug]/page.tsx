@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import WaveformViewer from "@/components/WaveformViewer";
 import HintPanel from "@/components/HintPanel";
 import { Play, Loader2, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import type { ReactElement } from "react";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
@@ -51,7 +52,7 @@ export default function ProblemPage() {
   const statusColor: Record<string, string> = {
     passed: "#00d4aa", failed: "#ff4d6a", error: "#f7a76c",
   };
-  const statusIcon: Record<string, JSX.Element> = {
+  const statusIcon: Record<string, ReactElement> = {
     passed: <CheckCircle size={16} color="#00d4aa" />,
     failed: <XCircle    size={16} color="#ff4d6a" />,
     error:  <AlertCircle size={16} color="#f7a76c" />,
@@ -125,7 +126,6 @@ export default function ProblemPage() {
             {problem.description}
           </div>
 
-          {/* Static Hints */}
           {problem.hints?.length > 0 && (
             <div style={{ marginBottom: 8 }}>
               <p style={{
@@ -145,7 +145,6 @@ export default function ProblemPage() {
             </div>
           )}
 
-          {/* AI Hints */}
           <HintPanel
             problemId={problem.id}
             userCode={code}
@@ -153,7 +152,6 @@ export default function ProblemPage() {
             apiUrl={API}
           />
 
-          {/* Result */}
           {result && (
             <div style={{
               marginTop: 24, background: "var(--bg-surface)",
