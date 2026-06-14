@@ -41,3 +41,4 @@ npm-debug.log*
 Thumbs.db
 aws/
 awscliv2.zip
+*.pem
