@@ -31,7 +31,7 @@ def run_simulation(user_code: str, testbench: str, language: str = "verilog") ->
 
         # Compile
         compile_result = subprocess.run(
-            ["iverilog", "-o", compiled_out, "-g2012", tb_file, design_file],
+            ["/usr/bin/iverilog", "-o", compiled_out, "-g2012", tb_file, design_file],
             capture_output=True, text=True,
             timeout=TIMEOUT_SECONDS, cwd=tmpdir,
         )
@@ -47,7 +47,7 @@ def run_simulation(user_code: str, testbench: str, language: str = "verilog") ->
         # Run
         start = time.time()
         sim_result = subprocess.run(
-            ["vvp", compiled_out],
+            ["/usr/bin/vvp", compiled_out],
             capture_output=True, text=True,
             timeout=TIMEOUT_SECONDS, cwd=tmpdir,
         )
