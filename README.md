@@ -172,8 +172,6 @@ npm run dev
 
 ```
 Frontend running at: http://localhost:3000
-```
-
 
 🐳 Option 2 — Docker Compose (Recommended)
 
