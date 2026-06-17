@@ -93,6 +93,7 @@ brew install postgresql
 brew services start postgresql
 psql postgres -c "CREATE USER bitforge WITH PASSWORD 'bitforge';"
 psql postgres -c "CREATE DATABASE bitforge OWNER bitforge;"
+```
 
 📦 Option 1 — Clone & Run Manually
 
