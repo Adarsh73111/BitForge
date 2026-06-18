@@ -21,6 +21,18 @@
 
 ---
 
+## 📸 Screenshots
+
+| Landing Page | Problems List |
+|---|---|
+| ![Landing](docs/screenshots/landing.png) | ![Problems](docs/screenshots/problems.png) |
+
+| Problem Solver + Waveform | Admin Panel |
+|---|---|
+| ![Solver](docs/screenshots/solver.png) | ![Admin](docs/screenshots/admin.png) |
+
+---
+
 ## ✨ Features
 
 - 🔌 **Verilog & SystemVerilog Support** — Write `.v` and `.sv` files directly in browser
