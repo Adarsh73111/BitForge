@@ -29,7 +29,7 @@
 
 | Problem Solver + Waveform | Admin Panel |
 |---|---|
-| ![Solver](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105802.png?raw=true) | ![Admin](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105317.png?raw=true) |
+| ![Solver](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105802.png?raw=true) | ![Admin](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/preview.webp?raw=true) |
 
 ---
 
