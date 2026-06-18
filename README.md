@@ -25,11 +25,11 @@
 
 | Landing Page | Problems List |
 |---|---|
-| ![Landing](docs/screenshots/landing.png) | ![Problems](docs/screenshots/problems.png) |
+| ![Landing](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105529.png?raw=true) | ![Problems](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105606.png?raw=true) |
 
 | Problem Solver + Waveform | Admin Panel |
 |---|---|
-| ![Solver](docs/screenshots/solver.png) | ![Admin](docs/screenshots/admin.png) |
+| ![Solver](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105802.png?raw=true) | ![Admin](https://github.com/Adarsh73111/BitForge/blob/main/docs/screenshots/Screenshot%202026-06-18%20105317.png?raw=true) |
 
 ---
 
